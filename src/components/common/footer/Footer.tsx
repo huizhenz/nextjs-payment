@@ -1,3 +1,7 @@
 export default function Footer() {
-  return <div className="border-2 border-gray-500 py-6">Footer 입니다.</div>;
+  return (
+    <div className=" bg-gray-100 text-center py-12">
+      © All Rights Reserved, 2024
+    </div>
+  );
 }
