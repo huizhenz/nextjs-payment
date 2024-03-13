@@ -5,7 +5,7 @@ import CheckoutPage from "@/paymentWidget/Checkout";
 
 export default function Payment() {
   return (
-    <Card className={cn("w-[32rem]")}>
+    <Card className={cn("w-[42rem]")}>
       <CheckoutPage />
     </Card>
   );

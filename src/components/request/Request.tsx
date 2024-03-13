@@ -41,19 +41,10 @@ const FormSchema = z.object({
 export default function Request() {
   const form = useForm();
 
-  function onSubmit() {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-  }
+  function onSubmit() {}
 
   return (
-    <Card className={cn("w-[380px]")}>
+    <Card className={cn("w-[42rem]")}>
       <CardHeader>
         <CardTitle>특별 요청 사항</CardTitle>
       </CardHeader>

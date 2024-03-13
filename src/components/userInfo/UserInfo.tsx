@@ -35,7 +35,7 @@ export default function UserInfo() {
   const form = useForm();
 
   return (
-    <Card className={cn("w-[380px]")}>
+    <Card className={cn("w-[42rem]")}>
       <CardHeader>
         <CardTitle>예약자 정보</CardTitle>
       </CardHeader>

@@ -1,0 +1,22 @@
+{
+  "coupons": [
+    {
+      "id": 1,
+      "content": "200,000원 이상 결제시 5,000원 할인",
+      "used": false
+    },
+    {
+      "id": 2,
+      "content": "250,000원 이상 결제시 10,000원 할인",
+      "used": false
+    }
+  ],
+  "hotels": [
+    {
+      "id": 1,
+      "location": "스위스 베른",
+      "name": "The Lake Hotel",
+      "price": 772240
+    }
+  ]
+}
