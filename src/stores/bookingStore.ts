@@ -1,10 +1,6 @@
 import { create } from "zustand";
-import { nanoid } from "nanoid";
-import axios from "axios";
-import { useEffect } from "react";
 
 interface Booking {
-  // id: string;
   coupon: string;
   selectCoupon: (selectedCoupon: string) => void; // setCoupon 함수의 타입 지정
   point: number;
@@ -15,7 +11,6 @@ interface Booking {
 
 // 초기 상태 설정
 const initialState = {
-  // id: nanoid(),
   coupon: "0",
   point: 0,
   bookingPrice: 0,

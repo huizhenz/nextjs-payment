@@ -11,13 +11,13 @@
         {
           "id": 1,
           "content": "200,000원 이상 결제시 5,000원 할인",
-          "discount": "5,000",
+          "discount": "5000",
           "used": false
         },
         {
           "id": 2,
           "content": "250,000원 이상 결제시 10,000원 할인",
-          "discount": "10,000",
+          "discount": "10000",
           "used": false
         }
       ],

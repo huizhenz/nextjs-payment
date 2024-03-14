@@ -51,20 +51,21 @@ export default function BookingCard() {
   const { coupon, point, bookingPrice, discountPrice } =
     useBookingDisconutStore();
 
-  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [hotels, setHotels] = useState<Hotel>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get("/hotels");
-        setHotels(data);
+        setHotels(data[0]);
+        discountPrice(data[0].price - parseInt(coupon) - point);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [coupon, point, discountPrice]);
 
   function onSubmit() {}
 
@@ -83,8 +84,8 @@ export default function BookingCard() {
             alt="Hotel Image"
           />
           <div className="flex flex-col">
-            <div>{hotels[0]?.location}</div>
-            <div>{hotels[0]?.name}</div>
+            <div>{hotels?.location}</div>
+            <div>{hotels?.name}</div>
           </div>
         </div>
         <div className="border-b-2"></div>
@@ -97,8 +98,7 @@ export default function BookingCard() {
           </Form> */}
           <div>
             4박 :
-            {hotels[0]?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-            원
+            {hotels?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
           </div>
           <div>쿠폰 : - {coupon.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
           <div>

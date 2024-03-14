@@ -1,8 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SuccessPage() {
   const router = useRouter();
@@ -30,7 +29,7 @@ export default function SuccessPage() {
 
       if (!response.ok) {
         // 결제 실패 비즈니스 로직을 구현하세요.
-        `/fail?message=${json.message}&code=${json.code}`;
+        router.push(`/booking/fail?message=${json.message}&code=${json.code}`);
         return;
       }
 
@@ -42,7 +41,7 @@ export default function SuccessPage() {
   return (
     <div className="result wrapper">
       <div className="box_section">
-        <h2>결제 성공</h2>
+        <h2>🎉 결제 성공 🎉</h2>
         <p>{`주문번호: ${searchParams.get("orderId")}`}</p>
         <p>{`결제 금액: ${Number(
           searchParams.get("amount")
@@ -52,3 +51,6 @@ export default function SuccessPage() {
     </div>
   );
 }
+
+// http://localhost:3000/
+// success?   paymentType=NORMAL  &  orderId=2quVUisVt6cng-2K8QzTu   &   paymentKey=tviva20240315024617da5u0  &   amount=772240

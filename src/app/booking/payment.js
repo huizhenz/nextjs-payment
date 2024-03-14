@@ -37,7 +37,7 @@ app.post("/confirm", function (req, res) {
     })
     .catch(function (error) {
       // 결제 실패 비즈니스 로직을 구현하세요.
-      console.log(error.response.body);
+      console.error(error.response.body); // 에러 응답을 콘솔에 출력
       res.status(error.response.statusCode).json(error.response.body);
     });
 });
