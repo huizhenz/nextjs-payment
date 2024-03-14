@@ -34,6 +34,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "@/api/axios";
 import Image from "next/image";
+import { useBookingDisconutStore } from "@/stores/bookingStore";
 
 interface Hotel {
   id: number;
@@ -45,20 +46,25 @@ interface Hotel {
 export default function BookingCard() {
   const form = useForm();
 
+  // const coupon = useBookingDisconutStore((state) => state.coupon);
+  // const point = useBookingDisconutStore((state) => state.point);
+  const { coupon, point, bookingPrice, discountPrice } =
+    useBookingDisconutStore();
+
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get("/hotels");
+        setHotels(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("/hotels");
-      setHotels(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   function onSubmit() {}
 
@@ -89,10 +95,20 @@ export default function BookingCard() {
               className="space-y-8"
             ></form>
           </Form> */}
-          <div>4박 : {hotels[0]?.price}</div>
-          <div>쿠폰 : </div>
-          <div>포인트 : </div>
-          <div>총합계 : </div>
+          <div>
+            4박 :
+            {hotels[0]?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            원
+          </div>
+          <div>쿠폰 : - {coupon.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</div>
+          <div>
+            포인트 : - {point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            원
+          </div>
+          <div>
+            총합계 :{" "}
+            {bookingPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </div>
         </CardContent>
       </Card>{" "}
       <CardFooter className="flex justify-between">

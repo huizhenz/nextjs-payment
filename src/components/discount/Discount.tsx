@@ -34,41 +34,44 @@ import { Input } from "@/components/ui/input";
 
 import axios from "@/api/axios";
 import { useEffect, useState } from "react";
+import { useBookingDisconutStore } from "@/stores/bookingStore";
 
 interface Coupon {
   id: number;
   content: string;
+  discount: string;
   used: boolean;
 }
 
 export default function Discount() {
   const form = useForm();
 
+  const { selectCoupon, enterPoint } = useBookingDisconutStore();
+
   const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [point, setPoint] = useState<number>(0);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get("/users");
+        setCoupons(data[0].coupons);
+        setPoint(data[0].point);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("/coupons");
-      setCoupons(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleCouponChange = () => {
+    selectCoupon(form.watch().coupon);
   };
 
-  function onSubmit() {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-  }
+  const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    enterPoint(Number(e.currentTarget.value));
+  };
 
   return (
     <Card className={cn("w-[42rem]")}>
@@ -79,15 +82,15 @@ export default function Discount() {
       <CardContent className="grid gap-4">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onChange={form.handleSubmit(handleCouponChange)}
             className="w-2/3 space-y-6"
           >
             <FormField
               control={form.control}
-              name="email"
+              name="coupon"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>쿠폰</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -100,7 +103,7 @@ export default function Discount() {
                     <SelectContent>
                       {coupons.map((coupon) => {
                         return (
-                          <SelectItem key={coupon.id} value={coupon.content}>
+                          <SelectItem key={coupon.id} value={coupon.discount}>
                             {coupon.content}
                           </SelectItem>
                         );
@@ -111,25 +114,62 @@ export default function Discount() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="point"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>포인트</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription>보유 포인트 3,100</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </form>
+        </Form>
+        <Form {...form}>
+          <FormLabel>포인트</FormLabel>
+          <Input
+            placeholder="1,000 포인트부터 사용 가능"
+            onChange={handlePointChange}
+            // 포커스가 떠날 때 값을 검증
+            onBlur={(e) => {
+              if (parseInt(e.currentTarget.value) > point) {
+                alert("보유 포인트를 초과하셨습니다.");
+                e.currentTarget.value = "";
+                enterPoint(Number(e.currentTarget.value));
+                return;
+              }
+
+              if (parseInt(e.currentTarget.value) < 1000) {
+                alert("1,000 포인트부터 사용 가능합니다.");
+                e.currentTarget.value = "";
+                enterPoint(Number(e.currentTarget.value));
+                return;
+              }
+            }}
+          />
+          <FormDescription>
+            보유 포인트 {point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          </FormDescription>
         </Form>
       </CardContent>
 
       <CardFooter></CardFooter>
     </Card>
   );
+}
+
+{
+  /* <Form {...form}>
+<form onChange={handlePointChange} className="w-2/3 space-y-6">
+  <FormField
+    control={form.control}
+    name="points"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>포인트</FormLabel>
+        <FormControl>
+          <Input
+            placeholder="1,000 포인트 이상부터 사용 가능"
+            // defaultValue={field.value}
+            {...field}
+          />
+        </FormControl>
+        <FormDescription>보유 포인트 {points}</FormDescription>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+</form>
+</Form> */
 }

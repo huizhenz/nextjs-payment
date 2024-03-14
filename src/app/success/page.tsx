@@ -1,9 +1,12 @@
-import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+"use client";
 
-export function SuccessPage() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+export default function SuccessPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
@@ -27,7 +30,7 @@ export function SuccessPage() {
 
       if (!response.ok) {
         // 결제 실패 비즈니스 로직을 구현하세요.
-        navigate(`/fail?message=${json.message}&code=${json.code}`);
+        `/fail?message=${json.message}&code=${json.code}`;
         return;
       }
 
