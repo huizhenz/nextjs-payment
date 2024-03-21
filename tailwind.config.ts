@@ -20,8 +20,11 @@ const config = {
     extend: {
       colors: {
         neon: "#BBE309",
+        neonHover: "#a5c70e",
+        neonGray: "#DFE3D1",
         gray: {
-          100: "#DFE3D1",
+          100: "#edf0f2",
+          200: "#dadee3",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -34,7 +34,7 @@ import { Input } from "@/components/ui/input";
 
 import axios from "@/api/axios";
 import { useEffect, useState } from "react";
-import { useBookingDisconutStore } from "@/stores/bookingStore";
+import { useBookingInfoStore } from "@/stores/bookingStore";
 
 interface Coupon {
   id: number;
@@ -46,7 +46,7 @@ interface Coupon {
 export default function Discount() {
   const form = useForm();
 
-  const { selectCoupon, enterPoint } = useBookingDisconutStore();
+  const { selectCoupon, enterPoint } = useBookingInfoStore();
 
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [point, setPoint] = useState<number>(0);

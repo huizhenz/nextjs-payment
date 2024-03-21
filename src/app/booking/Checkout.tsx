@@ -12,7 +12,7 @@ import { nanoid } from "nanoid";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { useBookingDisconutStore } from "@/stores/bookingStore";
+import { useBookingInfoStore } from "@/stores/bookingStore";
 
 // TODO: clientKey는 개발자센터의 결제위젯 연동 키 > 클라이언트 키로 바꾸세요.
 // TODO: customerKey는 구매자와 1:1 관계로 무작위한 고유값을 생성하세요.
@@ -31,7 +31,9 @@ function usePaymentWidget(clientKey: string, customerKey: string) {
 }
 
 export default function Checkout() {
-  const { bookingPrice } = useBookingDisconutStore();
+  const { bookingPrice } = useBookingInfoStore();
+
+  const [price, setPrice] = useState(bookingPrice);
 
   // const paymentWidget = PaymentWidget(widgetClientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
 
@@ -44,9 +46,9 @@ export default function Checkout() {
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
 
-  const [price, setPrice] = useState(50_000);
-
   useEffect(() => {
+    setPrice(bookingPrice);
+
     if (paymentWidget == null) {
       return;
     }
@@ -80,23 +82,23 @@ export default function Checkout() {
     paymentMethodsWidget.updateAmount(bookingPrice);
   }, [bookingPrice]);
 
-  const handlePaymentRequest = async () => {
-    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
-    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-    try {
-      await paymentWidget?.requestPayment({
-        orderId: nanoid(),
-        orderName: "토스 티셔츠 외 2건",
-        customerName: "김토스",
-        customerEmail: "customer123@gmail.com",
-        customerMobilePhone: "01012341234",
-        successUrl: `${window.location.origin}/booking/success`,
-        failUrl: `${window.location.origin}/booking/fail`,
-      });
-    } catch (error) {
-      console.error("Error requesting payment:", error);
-    }
-  };
+  // const handlePaymentRequest = async () => {
+  //   // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+  //   // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+  //   try {
+  //     await paymentWidget?.requestPayment({
+  //       orderId: nanoid(),
+  //       orderName: "토스 티셔츠 외 2건",
+  //       customerName: "김토스",
+  //       customerEmail: "customer123@gmail.com",
+  //       customerMobilePhone: "01012341234",
+  //       successUrl: `${window.location.origin}/booking/success`,
+  //       failUrl: `${window.location.origin}/booking/fail`,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error requesting payment:", error);
+  //   }
+  // };
 
   return (
     <main>
@@ -105,15 +107,14 @@ export default function Checkout() {
           <div id="payment-widget" style={{ width: "100%" }} />
           <div id="agreement" style={{ width: "100%" }} />
           <div style={{ paddingLeft: "24px" }}></div>
-          <div className="result wrapper">
-            <button
+
+          {/* <button
               className="button"
               style={{ marginTop: "30px" }}
               onClick={handlePaymentRequest}
             >
               결제하기
-            </button>
-          </div>
+            </button> */}
         </div>
       </div>
     </main>

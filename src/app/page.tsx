@@ -11,8 +11,8 @@ export default function Home() {
       <div className="text-3xl mb-16">예약확정/결제하기</div>
       <div className="flex justify-between space-x-16">
         <div className="space-y-9 ">
-          {/* <UserInfo /> */}
-          {/* <Request /> */}
+          <UserInfo />
+          <Request />
           <Discount />
           <Payment />
         </div>

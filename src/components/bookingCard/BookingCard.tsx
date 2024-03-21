@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -22,19 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { useEffect, useState } from "react";
 import axios from "@/api/axios";
 import Image from "next/image";
-import { useBookingDisconutStore } from "@/stores/bookingStore";
+import { useBookingInfoStore } from "@/stores/bookingStore";
+import BookingButton from "../button/BookingButton";
 
 interface Hotel {
   id: number;
@@ -47,9 +36,7 @@ export default function BookingCard() {
   const form = useForm();
 
   // const coupon = useBookingDisconutStore((state) => state.coupon);
-  // const point = useBookingDisconutStore((state) => state.point);
-  const { coupon, point, bookingPrice, discountPrice } =
-    useBookingDisconutStore();
+  const { coupon, point, bookingPrice, discountPrice } = useBookingInfoStore();
 
   const [hotels, setHotels] = useState<Hotel>();
 
@@ -111,9 +98,7 @@ export default function BookingCard() {
           </div>
         </CardContent>
       </Card>{" "}
-      <CardFooter className="flex justify-between">
-        <Button>예약하기</Button>
-      </CardFooter>{" "}
+      <BookingButton />
     </div>
   );
 }
