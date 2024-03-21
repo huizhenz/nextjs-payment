@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Hyejin",
+      "lastName": "Jang",
+      "phoneNumber": "01012345678",
+      "email": "test@test.com",
+      "point": 3100,
+      "coupons": [
+        {
+          "id": 1,
+          "content": "200,000원 이상 결제시 5,000원 할인",
+          "discount": "5000",
+          "used": false
+        },
+        {
+          "id": 2,
+          "content": "250,000원 이상 결제시 10,000원 할인",
+          "discount": "10000",
+          "used": false
+        }
+      ],
+      "bookingInfo": [
+        {
+          "date": "2024-09-01 ~ 2024-09-05",
+          "guest": 2,
+          "breakfaust": false
+        }
+      ]
+    }
+  ],
+  "hotels": [
+    {
+      "id": 1,
+      "location": "스위스 베른",
+      "name": "The Lake Hotel",
+      "price": 772240
+    }
+  ]
+}
